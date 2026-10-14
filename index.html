@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumen RP — Твой проводник в мир ролевых игр в Telegram</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b071e',
+                        cardBg: '#130c2e',
+                        cardHover: '#1c133f',
+                        accentPurple: '#a855f7',
+                        accentLight: '#c084fc',
+                        neonPink: '#ec4899',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        glow: {
+                            '0%': { opacity: '0.5', filter: 'drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' },
+                            '100%': { opacity: '1', filter: 'drop-shadow(0 0 30px rgba(168, 85, 247, 0.8))' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b071e;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(19, 12, 46, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+        }
+        .glass-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.15);
+        }
+        .neon-glow {
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.6), 0 0 40px rgba(168, 85, 247, 0.3);
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b071e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e1065;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #581c87;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 bg-grid-pattern selection:bg-purple-500 selection:text-white">
+
+    <!-- Ambient glowing background blobs -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-fuchsia-600/15 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md bg-darkBg/85 border-b border-purple-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-white animate-pulse"></i>
+                </div>
+                <span class="font-heading text-xl font-bold tracking-wide bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+                    Lumen RP
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-purple-400 transition-colors">Возможности</a>
+                <a href="#how-it-works" class="hover:text-purple-400 transition-colors">Как начать</a>
+                <a href="#simulator" class="hover:text-purple-400 transition-colors">Превью чата</a>
+                <a href="#community" class="hover:text-purple-400 transition-colors">Сообщество</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-4">
+                <a href="https://t.me/LumenRP_bot" target="_blank" class="relative group overflow-hidden rounded-xl p-[1px] font-semibold">
+                    <span class="absolute inset-0 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500 animate-pulse"></span>
+                    <span class="relative px-5 py-2.5 bg-darkBg rounded-[11px] flex items-center gap-2 text-sm text-white transition-all duration-300 group-hover:bg-opacity-80">
+                        <i data-lucide="send" class="w-4 h-4 text-purple-400"></i>
+                        <span>Запустить бота</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Text Content -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-purple-500/30 mb-6 text-purple-300 text-xs sm:text-sm font-medium animate-float">
+                        <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i>
+                        <span>Революционный текстовый ролевой бот в Telegram</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight leading-[1.1] mb-6">
+                        Lumen RP — <br class="hidden sm:inline">
+                        <span class="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-indigo-400 bg-clip-text text-transparent neon-glow">
+                            Твой проводник в мир ролевых игр
+                        </span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 mb-10 font-normal leading-relaxed">
+                        Погружайся в безграничные вселенные, создавай уникальных персонажей, участвуй в захватывающих сюжетных арках и находи верных компаньонов прямо в Telegram.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="https://t.me/LumenRP_bot" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white font-semibold shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-3 text-base">
+                            <i data-lucide="bot" class="w-5 h-5"></i>
+                            <span>Начать играть в Telegram</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#simulator" class="w-full sm:w-auto px-8 py-4 rounded-2xl glass-card text-purple-200 font-semibold hover:bg-purple-900/30 transition-all duration-200 flex items-center justify-center gap-2 text-base border border-purple-500/20">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-purple-400"></i>
+                            <span>Смотреть превью</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="mt-12 pt-8 border-t border-purple-900/40 grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-bold font-heading text-purple-300">10K+</div>
+                            <div class="text-xs sm:text-sm text-slate-400">Активных игроков</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-bold font-heading text-purple-300">50+</div>
+                            <div class="text-xs sm:text-sm text-slate-400">Уникальных миров</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-bold font-heading text-purple-300">24/7</div>
+                            <div class="text-xs sm:text-sm text-slate-400">Доступность</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Glowing Floating Visual -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md animate-float">
+                        <!-- Glow behind card -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
+                        
+                        <!-- Main Card Showcase -->
+                        <div class="relative glass-card rounded-3xl p-6 sm:p-8 border border-purple-500/30 shadow-2xl">
+                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-purple-900/50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-2xl bg-purple-600/30 flex items-center justify-center border border-purple-400/30">
+                                        <i data-lucide="shield-check" class="w-6 h-6 text-purple-300"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-heading font-bold text-lg text-white">Lumen Bot Core</h3>
+                                        <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                            онлайн в Telegram
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-purple-950/80 text-purple-300 text-xs font-semibold border border-purple-700/50">v2.4</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-purple-950/40 border border-purple-800/30">
+                                    <div class="text-xs text-purple-400 mb-1 font-semibold uppercase tracking-wider">Текущая локация</div>
+                                    <div class="text-sm font-medium text-white flex items-center justify-between">
+                                        <span>🏰 Таверна "Пьяный Дракон"</span>
+                                        <span class="text-xs text-purple-300 bg-purple-900/60 px-2 py-0.5 rounded-lg">Глава 1</span>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-purple-950/40 border border-purple-800/30">
+                                    <div class="text-xs text-purple-400 mb-2 font-semibold uppercase tracking-wider">Активный персонаж</div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white text-sm">
+                                            V
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-bold text-white">Вейн, Странник пустошей</div>
+                                            <div class="text-xs text-slate-400">Уровень 12 • Маг Воды</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="https://t.me/LumenRP_bot" target="_blank" class="w-full py-3 rounded-xl bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 font-medium text-sm transition-all flex items-center justify-center gap-2 border border-purple-500/30">
+                                    <span>Открыть в Telegram</span>
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-sm font-semibold tracking-wider uppercase mb-3 block">Возможности платформы</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading mb-6 tracking-tight">
+                    Всё для создания <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">эпических историй</span>
+                </h2>
+                <p class="text-slate-300 text-lg">
+                    Мы объединили удобство мессенджера и глубину настольных ролевых игр в одном элегантном боте.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="glass-card rounded-3xl p-8 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="user-pen" class="w-7 h-7 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Создание персонажей</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Детальный конструктор персонажей: расы, классы, предыстория, характеристики и уникальные артефакты.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card rounded-3xl p-8 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-500/20 to-purple-500/20 border border-fuchsia-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="globe-2" class="w-7 h-7 text-fuchsia-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Миры и сюжеты</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Множество жанров от тёмного фэнтези и киберпанка до постапокалипсиса и космической оперы.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card rounded-3xl p-8 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="terminal" class="w-7 h-7 text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Система команд</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Интуитивно понятные инлайн-кнопки и быстрые команды для управления боем, инвентарем и диалогами.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card rounded-3xl p-8 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="gamepad-2" class="w-7 h-7 text-pink-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Интерактивный геймплей</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Динамические события, броски кубиков (d20), случайные встречи и развилки сюжета зависят от ваших решений.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-24 relative overflow-hidden bg-purple-950/10 border-y border-purple-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-purple-400 text-sm font-semibold tracking-wider uppercase mb-3 block">Простой старт</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading mb-6 tracking-tight">
+                    Как начать своё <span class="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">приключение</span>
+                </h2>
+                <p class="text-slate-300 text-lg">
+                    Всего три простых шага отделяют тебя от первой сюжетной линии.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                
+                <!-- Step 1 -->
+                <div class="glass-card rounded-3xl p-8 relative flex flex-col items-center text-center">
+                    <div class="absolute -top-6 w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center font-heading font-extrabold text-white text-xl shadow-lg shadow-purple-600/40">
+                        1
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center mt-4 mb-6 text-purple-300">
+                        <i data-lucide="mouse-pointer-click" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Нажми кнопку</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Перейди по ссылке и запусти бота <a href="https://t.me/LumenRP_bot" target="_blank" class="text-purple-400 font-medium hover:underline">@LumenRP_bot</a> в Telegram в один клик.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card rounded-3xl p-8 relative flex flex-col items-center text-center">
+                    <div class="absolute -top-6 w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center font-heading font-extrabold text-white text-xl shadow-lg shadow-purple-600/40">
+                        2
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center mt-4 mb-6 text-purple-300">
+                        <i data-lucide="file-text" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Создай анкету</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Пройди короткий и увлекательный интерактивный опрос для генерации внешности и характеристик героя.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card rounded-3xl p-8 relative flex flex-col items-center text-center">
+                    <div class="absolute -top-6 w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center font-heading font-extrabold text-white text-xl shadow-lg shadow-purple-600/40">
+                        3
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center mt-4 mb-6 text-purple-300">
+                        <i data-lucide="compass" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Начни приключение</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Выбирай вселенную, принимай судьбоносные решения и пиши свою историю вместе с другими игроками.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mt-14 text-center">
+                <a href="https://t.me/LumenRP_bot" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold shadow-xl shadow-purple-600/30 hover:scale-105 transition-all">
+                    <i data-lucide="telegram" class="w-5 h-5"></i>
+                    <span>Попробовать прямо сейчас</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Chat Simulator Section -->
+    <section id="simulator" class="py-24 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-sm font-semibold tracking-wider uppercase mb-3 block">Интерактивное превью</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading mb-6 tracking-tight">
+                    Попробуй интерфейс <span class="bg-gradient-to-r from-purple-400 to-fuchsia-400 bg-clip-text text-transparent">в действии</span>
+                </h2>
+                <p class="text-slate-300 text-lg">
+                    Нажимай на кнопки команд ниже, чтобы увидеть, как бот взаимодействует с игроком в реальном времени.
+                </p>
+            </div>
+
+            <!-- Telegram Chat Mockup Box -->
+            <div class="glass-card rounded-3xl overflow-hidden border border-purple-500/30 shadow-2xl">
+                <!-- Telegram Header Bar -->
+                <div class="bg-[#18103a] px-6 py-4 flex items-center justify-between border-b border-purple-900/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow">
+                            L
+                        </div>
+                        <div>
+                            <div class="font-heading font-bold text-white text-sm sm:text-base flex items-center gap-1.5">
+                                Lumen RP Bot
+                                <span class="w-2 h-2 rounded-full bg-blue-400" title="Bot verified"></span>
+                            </div>
+                            <div class="text-xs text-purple-300">бот • обычно отвечает сразу</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 text-purple-300">
+                        <i data-lucide="search" class="w-5 h-5 cursor-pointer hover:text-white"></i>
+                        <i data-lucide="more-vertical" class="w-5 h-5 cursor-pointer hover:text-white"></i>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Body -->
+                <div id="chat-messages" class="p-6 sm:p-8 min-h-[320px] max-h-[400px] overflow-y-auto space-y-4 bg-[#0e0a26]/60">
+                    
+                    <!-- Bot initial greeting -->
+                    <div class="flex items-start gap-3 max-w-lg">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">L</div>
+                        <div class="glass-card p-4 rounded-2xl rounded-tl-none text-sm text-slate-200 border border-purple-500/20">
+                            <p class="font-semibold text-purple-300 mb-1">Добро пожаловать в Lumen RP! 🌌</p>
+                            <p>Я твой интерактивный проводник в мир ролевых миров. Выбери команду ниже, чтобы начать свое первое путешествие.</p>
+                            <span class="text-[10px] text-slate-400 mt-2 block text-right">13:00</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Interactive Command Buttons -->
+                <div class="p-4 bg-[#140d33] border-t border-purple-900/50 flex flex-wrap gap-2 justify-center">
+                    <button onclick="sendSimulatedCommand('/start', 'Привет! Давай начнем игру.')" class="px-4 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-700/60 text-purple-200 text-xs sm:text-sm font-medium border border-purple-500/30 transition-all flex items-center gap-2">
+                        <i data-lucide="play" class="w-3.5 h-3.5 text-purple-400"></i>
+                        <span>/start</span>
+                    </button>
+                    <button onclick="sendSimulatedCommand('/create', 'Хочу создать персонажа.')" class="px-4 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-700/60 text-purple-200 text-xs sm:text-sm font-medium border border-purple-500/30 transition-all flex items-center gap-2">
+                        <i data-lucide="user-plus" class="w-3.5 h-3.5 text-purple-400"></i>
+                        <span>/create (Создать героя)</span>
+                    </button>
+                    <button onclick="sendSimulatedCommand('/worlds', 'Какие есть миры для игры?')" class="px-4 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-700/60 text-purple-200 text-xs sm:text-sm font-medium border border-purple-500/30 transition-all flex items-center gap-2">
+                        <i data-lucide="globe" class="w-3.5 h-3.5 text-purple-400"></i>
+                        <span>/worlds (Выбрать мир)</span>
+                    </button>
+                    <button onclick="sendSimulatedCommand('/profile', 'Покажи профиль моего персонажа.')" class="px-4 py-2 rounded-xl bg-purple-900/50 hover:bg-purple-700/60 text-purple-200 text-xs sm:text-sm font-medium border border-purple-500/30 transition-all flex items-center gap-2">
+                        <i data-lucide="user" class="w-3.5 h-3.5 text-purple-400"></i>
+                        <span>/profile (Профиль)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community & CTA Banner Section -->
+    <section id="community" class="py-20 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden p-8 sm:p-14 bg-gradient-to-r from-purple-900/60 via-indigo-950/80 to-purple-900/60 border border-purple-500/40 text-center shadow-2xl">
+                <!-- Glowing orb inside banner -->
+                <div class="absolute -top-24 -right-24 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-pink-500/30 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <div class="w-16 h-16 rounded-2xl bg-purple-600/30 border border-purple-400/30 flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="sparkles" class="w-8 h-8 text-purple-300 animate-pulse"></i>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold font-heading mb-4 text-white">
+                        Готов написать свою легенду?
+                    </h2>
+                    <p class="text-slate-300 text-base sm:text-lg mb-8">
+                        Присоединяйся к нашему сообществу в Telegram, находи друзей для совместных игр и следи за обновлениями бота.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="https://t.me/LumenRP_bot" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white text-darkBg font-bold hover:bg-purple-100 transition-all shadow-lg flex items-center justify-center gap-2">
+                            <i data-lucide="send" class="w-5 h-5 text-purple-700"></i>
+                            <span>Запустить @LumenRP_bot</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-purple-900/40 py-12 bg-darkBg/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-heading font-bold text-lg text-white">Lumen RP</span>
+            </div>
+
+            <div class="flex items-center gap-6 text-sm text-slate-400">
+                <a href="#features" class="hover:text-purple-400 transition-colors">Возможности</a>
+                <a href="#how-it-works" class="hover:text-purple-400 transition-colors">Как начать</a>
+                <a href="https://t.me/LumenRP_bot" target="_blank" class="hover:text-purple-400 transition-colors">Бот в Telegram</a>
+            </div>
+
+            <div class="text-xs text-slate-500">
+                &copy; 2026 Lumen RP Bot. Все права защищены. Не связано с Telegram Messenger Inc.
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Script to initialize Lucide icons and Chat Simulator logic -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Chat simulator interactive logic
+        function sendSimulatedCommand(command, userText) {
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Append user message bubble
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'flex items-start gap-3 max-w-lg ml-auto justify-end';
+            userMsgDiv.innerHTML = `
+                <div class="glass-card p-4 rounded-2xl rounded-tr-none text-sm text-slate-200 bg-purple-900/40 border border-purple-500/30">
+                    <p class="font-semibold text-purple-200 mb-1">Вы</p>
+                    <p>${command} — ${userText}</p>
+                    <span class="text-[10px] text-slate-400 mt-2 block text-right">Только что</span>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-purple-700 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">Вы</div>
+            `;
+            chatMessages.appendChild(userMsgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Generate Bot response after brief delay
+            setTimeout(() => {
+                let botReply = "Обработка запроса...";
+                if (command === '/start') {
+                    botReply = "🎉 Вы успешно подключились к ядру Lumen RP! Пожалуйста, выберите вселенную для вашей истории или создайте нового персонажа через /create.";
+                } else if (command === '/create') {
+                    botReply = "✨ Конструктор персонажей запущен. Введите имя вашего героя и выберите его класс (Воин, Маг, Плут, Странник).";
+                } else if (command === '/worlds') {
+                    botReply = "🗺 Доступные миры: \n1. Нео-Киото (Киберпанк)\n2. Королевство Этерия (Фэнтези)\n3. Станция «Омега» (Космос)\nВведите номер мира для старта.";
+                } else if (command === '/profile') {
+                    botReply = "🛡 Ваш персонаж: Вейн (Уровень 12)\n⚔️ Здоровье: 100/100\n✨ Мана: 85/85\n🎒 Инвентарь: Зелье исцеления (x2), Стальной меч.";
+                }
+
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'flex items-start gap-3 max-w-lg';
+                botMsgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">L</div>
+                    <div class="glass-card p-4 rounded-2xl rounded-tl-none text-sm text-slate-200 border border-purple-500/20">
+                        <p class="font-semibold text-purple-300 mb-1">Lumen Bot</p>
+                        <p class="whitespace-pre-line">${botReply}</p>
+                        <span class="text-[10px] text-slate-400 mt-2 block text-right">Только что</span>
+                    </div>
+                `;
+                chatMessages.appendChild(botMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
